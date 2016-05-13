@@ -1,6 +1,8 @@
 package com.example.florian.android_bouncingball;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -13,10 +15,17 @@ public class GameView extends SurfaceView implements Runnable{
     SurfaceHolder holder;
     boolean status = false;
 
+    Bitmap ball;
+    float x_ball, y_ball;
+
     public GameView(Context context) {
         super(context);
 
         holder = getHolder();
+
+        ball = BitmapFactory.decodeResource(getResources(), R.drawable.blueball);
+
+        x_ball = y_ball = 0;
     }
 
     public void run(){
@@ -31,6 +40,8 @@ public class GameView extends SurfaceView implements Runnable{
             //lock Before painting
             Canvas c = holder.lockCanvas();
             c.drawARGB(255, 100, 30, blueIndex);
+            c.drawBitmap(ball, x_ball, y_ball, null);
+//          c.drawBitmap(ball, x_ball - ball.getWidth()/2, y_ball - ball.getHeight()/2, null);
             holder.unlockCanvasAndPost(c);
         }
     }
