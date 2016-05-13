@@ -24,6 +24,7 @@ public class GameView extends SurfaceView implements Runnable{
         holder = getHolder();
 
         ball = BitmapFactory.decodeResource(getResources(), R.drawable.blueball);
+        ball = Bitmap.createScaledBitmap(ball, 50, 50, false);
 
         x_ball = y_ball = 0;
     }
