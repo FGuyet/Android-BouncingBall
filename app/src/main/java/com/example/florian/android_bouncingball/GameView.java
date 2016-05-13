@@ -20,14 +20,17 @@ public class GameView extends SurfaceView implements Runnable{
     }
 
     public void run(){
+
+        int blueIndex = 0;
         while (status){
             if (!holder.getSurface().isValid()){
                 continue;
             }
+            blueIndex = (blueIndex + 1)% 256;
 
             //lock Before painting
             Canvas c = holder.lockCanvas();
-            c.drawARGB(255, 100, 50, 200);
+            c.drawARGB(255, 100, 30, blueIndex);
             holder.unlockCanvasAndPost(c);
         }
     }
