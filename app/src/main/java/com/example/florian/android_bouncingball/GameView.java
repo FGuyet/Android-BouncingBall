@@ -1,6 +1,7 @@
 package com.example.florian.android_bouncingball;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -19,8 +20,15 @@ public class GameView extends SurfaceView implements Runnable{
     }
 
     public void run(){
-        if (status){
-            //draw
+        while (status){
+            if (!holder.getSurface().isValid()){
+                continue;
+            }
+
+            //lock Before painting
+            Canvas c = holder.lockCanvas();
+            c.drawARGB(255, 100, 50, 200);
+            holder.unlockCanvasAndPost(c);
         }
     }
 
