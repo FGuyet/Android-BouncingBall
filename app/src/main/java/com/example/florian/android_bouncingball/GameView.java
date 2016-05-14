@@ -4,8 +4,11 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Point;
+import android.view.Display;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.WindowManager;
 
 /**
  * Created by Florian on 14/05/2016.
@@ -15,34 +18,51 @@ public class GameView extends SurfaceView implements Runnable{
     SurfaceHolder holder;
     boolean status = false;
 
+    Point screenSize = new Point();
+
     Bitmap ball;
     float x_ball, y_ball;
+    float dx_ball, dy_ball;
 
     public GameView(Context context) {
         super(context);
 
         holder = getHolder();
 
+        //Get screen size
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display display = wm.getDefaultDisplay();
+        display.getSize(screenSize);
+
+        //get ball
         ball = BitmapFactory.decodeResource(getResources(), R.drawable.blueball);
         ball = Bitmap.createScaledBitmap(ball, 50, 50, false);
 
+        //initial position and speed
         x_ball = y_ball = 0;
+        dx_ball = dy_ball = 4;
     }
 
     public void run(){
 
-        int blueIndex = 0;
         while (status){
             if (!holder.getSurface().isValid()){
                 continue;
             }
-            blueIndex = (blueIndex + 1)% 256;
+
+            x_ball += dx_ball;
+            if (x_ball <= 0 || x_ball > screenSize.x - ball.getWidth()){
+                dx_ball = 0 - dx_ball;
+            }
+            y_ball += dy_ball;
+            if (y_ball <= 0 || y_ball > screenSize.y - ball.getHeight()){
+                dy_ball = 0 - dy_ball;
+            }
 
             //lock Before painting
             Canvas c = holder.lockCanvas();
-            c.drawARGB(255, 100, 30, blueIndex);
+            c.drawARGB(255, 150, 200, 250);
             c.drawBitmap(ball, x_ball, y_ball, null);
-//          c.drawBitmap(ball, x_ball - ball.getWidth()/2, y_ball - ball.getHeight()/2, null);
             holder.unlockCanvasAndPost(c);
         }
     }

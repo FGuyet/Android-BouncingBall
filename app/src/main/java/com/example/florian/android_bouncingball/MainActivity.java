@@ -1,24 +1,25 @@
 package com.example.florian.android_bouncingball;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.View.OnTouchListener;
+import android.view.Window;
+import android.view.WindowManager;
 
-public class MainActivity extends Activity implements OnTouchListener{
+public class MainActivity extends Activity {
     GameView v;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //FullScreen
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_main);
 
         v = new GameView(this);
-        v.setOnTouchListener(this);
 
         setContentView(v);
     }
@@ -35,8 +36,4 @@ public class MainActivity extends Activity implements OnTouchListener{
         v.resume();
     }
 
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        return false;
-    }
 }
